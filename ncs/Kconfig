@@ -12,6 +12,9 @@ menuconfig SUIT_ENVELOPE
 
 if SUIT_ENVELOPE
 
+config SUIT_RECOVERY
+	bool "Build application as a SUIT recovery application"
+
 config SUIT_ENVELOPE_SIGN
     bool "Sign created SUIT envelope"
     help

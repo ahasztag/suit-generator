@@ -297,6 +297,7 @@ class EnvelopeStorage:
         class_id = severed_envelope[class_id_offset : class_id_offset + 16]
 
         role = self._find_role(class_id)
+        print("ARHA 1 AAAAA: ROLE" + str(role))
         if role is None:
             raise GeneratorError(
                 f"Unable to identify role for manifest with class id {class_id.hex()} / {self._assignments}"
@@ -305,6 +306,7 @@ class EnvelopeStorage:
         slot = self._find_slot(class_id)
         if slot is None:
             raise GeneratorError(f"Unable to find slot for manifest with class id {class_id.hex()}")
+        print("ARHA AAAAA: ROLE" + str(role))
 
         if slot[1] < len(envelope_bytes):
             raise GeneratorError(f"Unable to fit manifest with class id ({len(class_id.hex())} > {slot})")
@@ -542,7 +544,8 @@ class ImageCreator:
 
         for domain in ManifestDomain:
             additional_hex = None
-            if domain == ManifestDomain.APPLICATION:
+
+            if domain == ManifestDomain.APPLICATION and (ManifestRole.APP_ROOT in storage._envelopes.keys()):
                 additional_hex = uci_hex
             ImageCreator._create_single_domain_storage_file_for_boot(storage, domain, dir_name, additional_hex)
 

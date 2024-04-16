@@ -297,7 +297,6 @@ class EnvelopeStorage:
         class_id = severed_envelope[class_id_offset : class_id_offset + 16]
 
         role = self._find_role(class_id)
-        print("ARHA 1 AAAAA: ROLE" + str(role))
         if role is None:
             raise GeneratorError(
                 f"Unable to identify role for manifest with class id {class_id.hex()} / {self._assignments}"
@@ -306,7 +305,6 @@ class EnvelopeStorage:
         slot = self._find_slot(class_id)
         if slot is None:
             raise GeneratorError(f"Unable to find slot for manifest with class id {class_id.hex()}")
-        print("ARHA AAAAA: ROLE" + str(role))
 
         if slot[1] < len(envelope_bytes):
             raise GeneratorError(f"Unable to fit manifest with class id ({len(class_id.hex())} > {slot})")
@@ -337,7 +335,7 @@ class EnvelopeStorage:
                 envelope_bytes = self._envelopes[role].ljust(max_size, b"\xFF")
                 envelope_count += 1
             else:
-                envelope_bytes = b"\xFF" * max_size
+                continue
 
             envelope_hex = IntelHex()
             envelope_hex.frombytes(envelope_bytes, self._base_address + entry["offset"])
